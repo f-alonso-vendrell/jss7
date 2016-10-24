@@ -36,6 +36,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+import javax.swing.JCheckBox;
 
 import org.mobicents.protocols.ss7.map.api.primitives.AddressNature;
 import org.mobicents.protocols.ss7.map.api.primitives.NumberingPlan;
@@ -78,6 +79,91 @@ public class TestMapLcsServerParamForm extends JDialog {
     private JTextField tfLcsReferenceNumber;
     private JLabel tfNetworkNodeAddress;
     private JLabel tfNetworkNodeAddressSRI;
+
+    private JTextField tfLongitude;
+    private JTextField tfLattitude;
+
+
+    private JPanel createTab(JTabbedPane parent,String name) {
+        JPanel tab = new JPanel();
+        parent.addTab(name,null,tab,null);
+        tab.setLayout(null);
+        return tab;
+    }
+
+    private JPanel createSection(JPanel tab,String name,int y_pos, int height) {
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        panel.setBounds(26, y_pos, 511, height);
+        tab.add(panel);
+
+        JLabel label = new JLabel(name);
+        label.setBounds(10, 0, 266, 14);
+        panel.add(label);
+
+        return panel;
+    }
+
+    private JComboBox createCombo(JPanel section,String name, int y_pos) {
+
+        JLabel label = new JLabel(name);
+        label.setBounds(10, y_pos, 174, 14);
+        section.add(label);
+
+        JComboBox comboBox = new JComboBox();
+        comboBox.setBounds(194, y_pos, 307, 20);
+        section.add(comboBox);
+
+        return comboBox;
+    }
+
+    private JTextField cretateTextField(JPanel section,String name, int y_pos) {
+
+        JLabel label = new JLabel(name);
+        label.setBounds(10, y_pos, 174, 14);
+        section.add(label);
+
+        JTextField textField = new JTextField();
+        textField.setBounds(194, y_pos, 307, 20);
+        textField.setColumns(10);
+        section.add(textField);
+
+        return textField;
+    }
+
+    private JTextField cretateSmallTextField(JPanel section,String name, int x_pos, int y_pos) {
+
+        int calculated_x = x_pos*10+(x_pos-1)*175;
+
+        JLabel label = new JLabel(name);
+        label.setBounds(calculated_x, y_pos, 75, 14);
+        section.add(label);
+
+        JTextField textField = new JTextField();
+        textField.setBounds(calculated_x+75, y_pos, 75, 20);
+        textField.setColumns(10);
+        section.add(textField);
+
+        return textField;
+    }
+
+    private void createLabel(JPanel section,String name, int y_pos) {
+
+        JLabel label = new JLabel(name);
+        label.setBounds(10, y_pos, 450, 14);
+        section.add(label);
+    }
+
+    private JCheckBox createCheckbox(JPanel section,String name, int y_pos) {
+
+        JCheckBox checkBox = new JCheckBox(name);
+        checkBox.setBounds(10, y_pos, 450, 20);
+        section.add(checkBox);
+
+        return checkBox;
+    }
+
 
     public TestMapLcsServerParamForm(JFrame owner) {
         super(owner, true);
@@ -331,9 +417,26 @@ public class TestMapLcsServerParamForm extends JDialog {
 
         */
 
-        JPanel panel_plr = new JPanel();
-        panel_plr.setLayout(null);
-        tabbedPane.addTab("PLR ", null, panel_plr, null);
+        // JPanel panel_plr = new JPanel();
+        // panel_plr.setLayout(null);
+        // tabbedPane.addTab("PLR ", null, panel_plr, null);
+
+        int lineSeparation = 22;
+        int sectionSeparation = 5;
+
+        JPanel panel_psl = createTab(tabbedPane,"PSL Response");
+
+        JPanel panel_plr_1 = createSection(panel_psl,"Location Estimate",sectionSeparation,lineSeparation*3);
+        tfLongitude = cretateTextField(panel_plr_1,"Longitude(e.g. -3.703790)",lineSeparation);
+        tfLattitude = cretateTextField(panel_plr_1,"Lattitude(e.g. 40.416775)",lineSeparation*2);
+
+
+
+
+
+
+
+
 
         JButton button = new JButton("Load default values for side A");
         button.setBounds(10, 476, 246, 23);
@@ -417,6 +520,9 @@ public class TestMapLcsServerParamForm extends JDialog {
         this.tfMnc.setText(this.mapLcsServer.getMNC().toString());
         this.tfMsisdn.setText(this.mapLcsServer.getMSISDN());
         M3uaForm.setEnumeratedBaseComboBox(this.cbLcsEvent, this.mapLcsServer.getLCSEventType());
+
+        this.tfLongitude.setText(this.mapLcsServer.getLongitude().toString());
+        this.tfLattitude.setText(this.mapLcsServer.getLattitude().toString());
     }
 
     private void loadDataA() {
@@ -446,6 +552,9 @@ public class TestMapLcsServerParamForm extends JDialog {
         this.tfMsisdn.setText("3333344444");
         M3uaForm.setEnumeratedBaseComboBox(this.cbLcsEvent, new LCSEventType(LCSEvent.emergencyCallOrigination.getEvent()));
 
+        this.tfLongitude.setText("-3.703790");
+        this.tfLattitude.setText("40.416775");
+
     }
 
     private void loadDataB() {
@@ -468,6 +577,9 @@ public class TestMapLcsServerParamForm extends JDialog {
             this.mapLcsServer.setMCC(Integer.valueOf(this.tfMcc.getText()));
             this.mapLcsServer.setMNC(Integer.valueOf(this.tfMnc.getText()));
             this.mapLcsServer.setCellId(Integer.valueOf(this.tfCellId.getText()));
+            // PSL Response
+            this.mapLcsServer.setLongitude(Double.valueOf(this.tfLongitude.getText()));
+            this.mapLcsServer.setLattitude(Double.valueOf(this.tfLattitude.getText()));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "value: " + e.toString() + "Not valid, must be a number");
             return false;
@@ -477,10 +589,7 @@ public class TestMapLcsServerParamForm extends JDialog {
         this.mapLcsServer.setIMSI(this.tfImsi.getText());
         this.mapLcsServer.setMSISDN(this.tfMsisdn.getText());
         this.mapLcsServer.setLCSEventType((LCSEventType) cbLcsEvent.getSelectedItem());
-        /*
-        //SLR Response tab
-        this.mapLcsServer.setNaESRDAddress(cbNaEsrdAddress.getText());
-        */
+
         return true;
     }
 }

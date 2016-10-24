@@ -54,6 +54,8 @@ public class TestMapLcsServerConfigurationData {
     protected static final String AGE_OF_LOCATION_ESTIMATE ="ageOfLocationEstimate";
     protected static final String LCS_EVENT = "lcsEvent";
     protected static final String MSISDN = "msisdn";
+    protected static final String LONGITUDE = "longitude";
+    protected static final String LATTITUDE = "lattitude";
 
     public String getIMEI() {
         return imei;
@@ -144,6 +146,24 @@ public class TestMapLcsServerConfigurationData {
     private Integer lcsReferenceNumber = 111;
     private Integer ageOfLocationEstimate = 100;
     private LCSEvent lcsEvent = LCSEvent.emergencyCallOrigination;
+    private Double longitude = -3.703790;
+    private Double lattitude = 40.416775;
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double data){
+        this.longitude = data;
+    }
+
+    public Double getLattitude() {
+        return lattitude;
+    }
+
+    public void setLattitude(Double data){
+        this.lattitude = data;
+    }
 
     public String getNaESRDAddress() {
         return naESRDAddress;
@@ -207,6 +227,10 @@ public class TestMapLcsServerConfigurationData {
 
         public void write(TestMapLcsServerConfigurationData srv, OutputElement xml) throws XMLStreamException {
             //xml.setAttribute(NETWORK_NODE_NUMBER_ADDRESS, srv.networkNodeNumberAddress);
+
+            xml.setAttribute(LONGITUDE, srv.longitude);
+            xml.setAttribute(LATTITUDE, srv.lattitude);
+
             xml.add(srv.addressNature.toString(), ADDRESS_NATURE, String.class);
             xml.add(srv.numberingPlanType.toString(), NUMBERING_PLAN_TYPE, String.class);
             xml.add(srv.naESRDAddress.toString(), NA_ESRD_ADDRESS, String.class);
@@ -227,6 +251,10 @@ public class TestMapLcsServerConfigurationData {
 
         public void read(InputElement xml, TestMapLcsServerConfigurationData srv) throws XMLStreamException {
             //srv.networkNodeNumberAddress = xml.getAttribute(NETWORK_NODE_NUMBER_ADDRESS).toString();
+
+            srv.longitude = xml.getAttribute(LONGITUDE).toDouble();
+            srv.lattitude = xml.getAttribute(LATTITUDE).toDouble();
+
             String an = (String) xml.get(ADDRESS_NATURE, String.class);
             srv.addressNature = AddressNature.valueOf(an);
             String npt = (String) xml.get(NUMBERING_PLAN_TYPE, String.class);

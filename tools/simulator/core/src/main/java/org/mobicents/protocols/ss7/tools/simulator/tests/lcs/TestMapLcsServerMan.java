@@ -248,6 +248,9 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
             this.setLCSEventType(x);
     }
 
+
+
+
     @Override
     public String subscriberLocationReportResponse() {
 
@@ -363,25 +366,26 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
             ServingNodeAddress targetServingNodeForHandover = null;
 
         try {
-            ExtGeographicalInformation locationEstimate = mapParameterFactory.createExtGeographicalInformation_EllipsoidPoint(40.416775,-3.703790);
+            ExtGeographicalInformation locationEstimate = mapParameterFactory.createExtGeographicalInformation_EllipsoidPoint(getLattitude(),getLongitude());
 
             curDialog.addProvideSubscriberLocationResponse(
                 provideSubscriberLocationRequestIndication.getInvokeId(),
-                locationEstimate,
-                geranPositioningData,
-                utranPositioningData,
-                ageOfLocationEstimate,
-                additionalLocationEstimate,
+                locationEstimate,     // Version 1
+                geranPositioningData, // Version 1
+                utranPositioningData, // Version 1
+                ageOfLocationEstimate, // Version 1
+                additionalLocationEstimate, // Version 1
                 extensionContainer,
-                deferredMTLRResponseIndicator,
-                cellGlobalIdOrServiceAreaIdOrLAI,
+                deferredMTLRResponseIndicator, // Version 1
+                cellGlobalIdOrServiceAreaIdOrLAI, // Version 1
                 saiPresent,
-                accuracyFulfilmentIndicator,
+                accuracyFulfilmentIndicator, // Version 1
                 velocityEstimate,
-                moLrShortCircuitIndicator,
+                moLrShortCircuitIndicator, // Version 1
                 geranGANSSpositioningData,
                 utranGANSSpositioningData,
                 targetServingNodeForHandover);
+                // User Error ?
 
             logger.debug("set addProvideSubscriberLocationResponse");
             curDialog.send();
@@ -703,6 +707,24 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
     @Override
     public void setLAC(Integer lac){
         this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setLAC(lac);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Double getLongitude(){
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getLongitude();
+    }
+    @Override
+    public void setLongitude(Double data){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setLongitude(data);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Double getLattitude(){
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getLattitude();
+    }
+    @Override
+    public void setLattitude(Double data){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setLattitude(data);
         this.testerHost.markStore();
     }
      //TODO move this helper method to constructor type...

@@ -73,6 +73,13 @@ public interface TestMapLcsServerManMBean {
     Integer getMNC();
     void setMNC(Integer mnc);
 
+    // PSL Response
+
+    Double getLongitude();
+    void setLongitude(Double data);
+    Double getLattitude();
+    void setLattitude(Double data);
+
     // Methods for configurable properties via HTTP interface for values that are based on EnumeratedBase abstract class
 
     void putAddressNature(String val);
