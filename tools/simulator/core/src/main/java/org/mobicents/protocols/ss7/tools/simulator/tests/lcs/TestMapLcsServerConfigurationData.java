@@ -57,6 +57,10 @@ public class TestMapLcsServerConfigurationData {
     protected static final String LONGITUDE = "longitude";
     protected static final String LATTITUDE = "lattitude";
     protected static final String AGE_OF_LOCATION_ESTIMATE_PSL ="ageOfLocationEstimatePSL";
+    protected static final String ADDLONGITUDE = "addlongitude";
+    protected static final String ADDLATTITUDE = "addlattitude";
+    protected static final String ADDUNCERTAINTY = "adduncertainty";
+
 
     public String getIMEI() {
         return imei;
@@ -150,6 +154,9 @@ public class TestMapLcsServerConfigurationData {
     private Double longitude = -3.703790;
     private Double lattitude = 40.416775;
     private Integer ageOfLocationEstimatePSL = 100;
+    private Double addlongitude = -3.703790;
+    private Double addlattitude = 40.416775;
+    private Double adduncertainty = 0.01;
 
     public Double getLongitude() {
         return longitude;
@@ -165,6 +172,29 @@ public class TestMapLcsServerConfigurationData {
 
     public void setLattitude(Double data){
         this.lattitude = data;
+    }
+    public Double getAddLongitude() {
+        return addlongitude;
+    }
+
+    public void setAddLongitude(Double data){
+        this.addlongitude = data;
+    }
+
+    public Double getAddLattitude() {
+        return addlattitude;
+    }
+
+    public void setAddLattitude(Double data){
+        this.addlattitude = data;
+    }
+
+    public Double getAddUncertainty() {
+        return adduncertainty;
+    }
+
+    public void setAddUncertainty(Double data){
+        this.adduncertainty = data;
     }
 
     public String getNaESRDAddress() {
@@ -241,6 +271,9 @@ public class TestMapLcsServerConfigurationData {
             xml.setAttribute(LONGITUDE, srv.longitude);
             xml.setAttribute(LATTITUDE, srv.lattitude);
             xml.setAttribute(AGE_OF_LOCATION_ESTIMATE_PSL,srv.ageOfLocationEstimatePSL);
+            xml.setAttribute(ADDLONGITUDE, srv.addlongitude);
+            xml.setAttribute(ADDLATTITUDE, srv.addlattitude);
+            xml.setAttribute(ADDUNCERTAINTY, srv.adduncertainty);
 
             xml.add(srv.addressNature.toString(), ADDRESS_NATURE, String.class);
             xml.add(srv.numberingPlanType.toString(), NUMBERING_PLAN_TYPE, String.class);
@@ -266,6 +299,9 @@ public class TestMapLcsServerConfigurationData {
             srv.longitude = xml.getAttribute(LONGITUDE).toDouble();
             srv.lattitude = xml.getAttribute(LATTITUDE).toDouble();
             srv.ageOfLocationEstimatePSL = xml.getAttribute(AGE_OF_LOCATION_ESTIMATE_PSL).toInt();
+            srv.addlongitude = xml.getAttribute(ADDLONGITUDE).toDouble();
+            srv.addlattitude = xml.getAttribute(ADDLATTITUDE).toDouble();
+            srv.adduncertainty = xml.getAttribute(ADDUNCERTAINTY).toDouble();
 
             String an = (String) xml.get(ADDRESS_NATURE, String.class);
             srv.addressNature = AddressNature.valueOf(an);

@@ -310,7 +310,8 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
     private String createPSLResponse(
         long dialogId,
         ExtGeographicalInformation locationEstimate,
-        Integer ageOfLocationEstimate){
+        Integer ageOfLocationEstimate,
+        AddGeographicalInformation additionalLocationEstimate){
 
         StringBuilder sb = new StringBuilder();
         sb.append("dialogId=");
@@ -318,8 +319,9 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
         sb.append("locationEstimate=\"");
         sb.append(locationEstimate).append("\",\n");
         sb.append("ageOfLocationEstimate=\"");
-        sb.append(ageOfLocationEstimate).append("\"");
-
+        sb.append(ageOfLocationEstimate).append("\",\n");
+        sb.append("additionalLocationEstimate=\"");
+        sb.append(additionalLocationEstimate).append("\"");
 
         return sb.toString();
     }
@@ -357,7 +359,6 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
             PositioningDataInformation geranPositioningData = null;
             UtranPositioningDataInfo utranPositioningData = null;
             Integer ageOfLocationEstimate = getAgeOfLocationEstimatePSL();
-            AddGeographicalInformation additionalLocationEstimate = null;
             MAPExtensionContainer extensionContainer = null;
             boolean deferredMTLRResponseIndicator = false;
             CellGlobalIdOrServiceAreaIdOrLAI cellGlobalIdOrServiceAreaIdOrLAI = null;
@@ -371,6 +372,8 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
 
         try {
             ExtGeographicalInformation locationEstimate = mapParameterFactory.createExtGeographicalInformation_EllipsoidPoint(getLattitude(),getLongitude());
+            AddGeographicalInformation additionalLocationEstimate = mapParameterFactory.
+                createAddGeographicalInformation_EllipsoidPointWithUncertaintyCircle(getAddLattitude(),getAddLongitude(),getAddUncertainty());
 
             curDialog.addProvideSubscriberLocationResponse(
                 provideSubscriberLocationRequestIndication.getInvokeId(),
@@ -378,7 +381,7 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
                 geranPositioningData, // Version 1
                 utranPositioningData, // Version 1
                 ageOfLocationEstimate, // Version 1 - done
-                additionalLocationEstimate, // Version 1
+                additionalLocationEstimate, // Version 1 - done
                 extensionContainer,
                 deferredMTLRResponseIndicator, // Version 1
                 cellGlobalIdOrServiceAreaIdOrLAI, // Version 1
@@ -399,7 +402,8 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
             this.testerHost.sendNotif(SOURCE_NAME, "Sent: SendRoutingInfoForLCSResponse",
                 createPSLResponse(curDialog.getLocalDialogId(),
                     locationEstimate,
-                    ageOfLocationEstimate), Level.INFO);
+                    ageOfLocationEstimate,
+                    additionalLocationEstimate), Level.INFO);
 
          } catch (MAPException e) {
             logger.debug("Failed building  SendRoutingInfoForLCS response "+e.toString());
@@ -739,6 +743,33 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
     @Override
     public void setLattitude(Double data){
         this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setLattitude(data);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Double getAddLongitude(){
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getAddLongitude();
+    }
+    @Override
+    public void setAddLongitude(Double data){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setAddLongitude(data);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Double getAddLattitude(){
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getAddLattitude();
+    }
+    @Override
+    public void setAddLattitude(Double data){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setAddLattitude(data);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Double getAddUncertainty(){
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getAddUncertainty();
+    }
+    @Override
+    public void setAddUncertainty(Double data){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setAddUncertainty(data);
         this.testerHost.markStore();
     }
      //TODO move this helper method to constructor type...

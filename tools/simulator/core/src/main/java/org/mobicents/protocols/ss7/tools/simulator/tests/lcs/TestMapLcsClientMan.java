@@ -60,7 +60,7 @@ import org.mobicents.protocols.ss7.map.api.service.lsm.OccurrenceInfo;
 import org.mobicents.protocols.ss7.map.api.service.lsm.PeriodicLDRInfo;
 import org.mobicents.protocols.ss7.map.api.service.lsm.AreaIdentification;
 import org.mobicents.protocols.ss7.map.api.service.lsm.ExtGeographicalInformation;
-
+import org.mobicents.protocols.ss7.map.api.service.lsm.AddGeographicalInformation;
 
 /**
  * @author falonso@csc.com
@@ -824,7 +824,8 @@ public class TestMapLcsClientMan extends TesterBase implements TestMapLcsClientM
     private String createPSLResponse(
         long dialogId,
         ExtGeographicalInformation locationEstimate,
-        Integer ageOfLocationEstimate){
+        Integer ageOfLocationEstimate,
+        AddGeographicalInformation additionalLocationEstimate){
 
         StringBuilder sb = new StringBuilder();
         sb.append("dialogId=");
@@ -832,7 +833,9 @@ public class TestMapLcsClientMan extends TesterBase implements TestMapLcsClientM
         sb.append("locationEstimate=\"");
         sb.append(locationEstimate).append("\",\n");
         sb.append("ageOfLocationEstimate=\"");
-        sb.append(ageOfLocationEstimate).append("\"");
+        sb.append(ageOfLocationEstimate).append("\",\n");
+        sb.append("additionalLocationEstimate=\"");
+        sb.append(additionalLocationEstimate).append("\"");
 
         return sb.toString();
     }
@@ -852,7 +855,9 @@ public class TestMapLcsClientMan extends TesterBase implements TestMapLcsClientM
                                 provideSubscriberLocationResponseIndication
                                     .getLocationEstimate(),
                                 provideSubscriberLocationResponseIndication
-                                    .getAgeOfLocationEstimate()
+                                    .getAgeOfLocationEstimate(),
+                                provideSubscriberLocationResponseIndication
+                                    .getAdditionalLocationEstimate()
                                         ), Level.INFO);
     }
 

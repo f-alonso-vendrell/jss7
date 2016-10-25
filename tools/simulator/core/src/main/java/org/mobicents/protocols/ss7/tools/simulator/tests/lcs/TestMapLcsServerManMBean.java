@@ -81,6 +81,12 @@ public interface TestMapLcsServerManMBean {
     void setLattitude(Double data);
     void setAgeOfLocationEstimatePSL(Integer ageOfLocationEstimate);
     Integer getAgeOfLocationEstimatePSL();
+    Double getAddLongitude();
+    void setAddLongitude(Double data);
+    Double getAddLattitude();
+    void setAddLattitude(Double data);
+    Double getAddUncertainty();
+    void setAddUncertainty(Double data);
 
     // Methods for configurable properties via HTTP interface for values that are based on EnumeratedBase abstract class
 

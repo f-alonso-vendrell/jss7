@@ -83,6 +83,9 @@ public class TestMapLcsServerParamForm extends JDialog {
     private JTextField tfLongitude;
     private JTextField tfLattitude;
     private JTextField tfAgeOfLocationEstimatePSL;
+    private JTextField tfAddLongitude;
+    private JTextField tfAddLattitude;
+    private JTextField tfAddUncertainty;
 
 
     private JPanel createTab(JTabbedPane parent,String name) {
@@ -437,6 +440,10 @@ public class TestMapLcsServerParamForm extends JDialog {
         JPanel panel_plr_2 = createSection(panel_psl,"Age of Location Estimate",2*sectionSeparation+lineSeparation*3,lineSeparation*2);
         tfAgeOfLocationEstimatePSL = cretateTextField(panel_plr_2,"Age of Location Estimate",lineSeparation);
 
+        JPanel panel_psl_3 = createSection(panel_psl,"Additional Location Estimate",3*sectionSeparation+lineSeparation*5,lineSeparation*4);
+        tfAddLongitude = cretateTextField(panel_psl_3,"Longitude(e.g. -3.703790)",lineSeparation);
+        tfAddLattitude = cretateTextField(panel_psl_3,"Lattitude(e.g. 40.416775)",lineSeparation*2);
+        tfAddUncertainty = cretateTextField(panel_psl_3,"Uncertainty(e.g. 0.001)",lineSeparation*3);
 
 
 
@@ -527,6 +534,9 @@ public class TestMapLcsServerParamForm extends JDialog {
         this.tfLattitude.setText(this.mapLcsServer.getLattitude().toString());
         // AgeOfLocation estimate seems repeated, should it go to common tab.
         this.tfAgeOfLocationEstimatePSL.setText(this.mapLcsServer.getAgeOfLocationEstimatePSL().toString());
+        this.tfAddLongitude.setText(this.mapLcsServer.getAddLongitude().toString());
+        this.tfAddLattitude.setText(this.mapLcsServer.getAddLattitude().toString());
+        this.tfAddUncertainty.setText(this.mapLcsServer.getAddUncertainty().toString());
     }
 
     private void loadDataA() {
@@ -561,6 +571,11 @@ public class TestMapLcsServerParamForm extends JDialog {
 
         this.tfAgeOfLocationEstimatePSL.setText("0");
 
+        this.tfAddLongitude.setText("-3.703790");
+        this.tfAddLattitude.setText("40.416775");
+        this.tfAddUncertainty.setText("0.01");
+
+
     }
 
     private void loadDataB() {
@@ -587,6 +602,10 @@ public class TestMapLcsServerParamForm extends JDialog {
             this.mapLcsServer.setLongitude(Double.valueOf(this.tfLongitude.getText()));
             this.mapLcsServer.setLattitude(Double.valueOf(this.tfLattitude.getText()));
             this.mapLcsServer.setAgeOfLocationEstimatePSL(Integer.valueOf(this.tfAgeOfLocationEstimatePSL.getText()));
+            this.mapLcsServer.setAddLongitude(Double.valueOf(this.tfAddLongitude.getText()));
+            this.mapLcsServer.setAddLattitude(Double.valueOf(this.tfAddLattitude.getText()));
+            this.mapLcsServer.setAddUncertainty(Double.valueOf(this.tfAddUncertainty.getText()));
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "value: " + e.toString() + "Not valid, must be a number");
             return false;
