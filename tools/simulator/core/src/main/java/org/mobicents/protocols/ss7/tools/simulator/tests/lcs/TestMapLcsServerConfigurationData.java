@@ -56,6 +56,7 @@ public class TestMapLcsServerConfigurationData {
     protected static final String MSISDN = "msisdn";
     protected static final String LONGITUDE = "longitude";
     protected static final String LATTITUDE = "lattitude";
+    protected static final String AGE_OF_LOCATION_ESTIMATE_PSL ="ageOfLocationEstimatePSL";
 
     public String getIMEI() {
         return imei;
@@ -148,6 +149,7 @@ public class TestMapLcsServerConfigurationData {
     private LCSEvent lcsEvent = LCSEvent.emergencyCallOrigination;
     private Double longitude = -3.703790;
     private Double lattitude = 40.416775;
+    private Integer ageOfLocationEstimatePSL = 100;
 
     public Double getLongitude() {
         return longitude;
@@ -222,6 +224,14 @@ public class TestMapLcsServerConfigurationData {
         return imsi;
     }
 
+    public Integer getAgeOfLocationEstimatePSL() {
+        return ageOfLocationEstimatePSL;
+    }
+
+    public void setAgeOfLocationEstimatePSL(Integer ageOfLocationEstimate) {
+        this.ageOfLocationEstimatePSL = ageOfLocationEstimate;
+    }
+
     protected static final XMLFormat<TestMapLcsServerConfigurationData> XML = new XMLFormat<TestMapLcsServerConfigurationData>(
             TestMapLcsServerConfigurationData.class) {
 
@@ -230,6 +240,7 @@ public class TestMapLcsServerConfigurationData {
 
             xml.setAttribute(LONGITUDE, srv.longitude);
             xml.setAttribute(LATTITUDE, srv.lattitude);
+            xml.setAttribute(AGE_OF_LOCATION_ESTIMATE_PSL,srv.ageOfLocationEstimatePSL);
 
             xml.add(srv.addressNature.toString(), ADDRESS_NATURE, String.class);
             xml.add(srv.numberingPlanType.toString(), NUMBERING_PLAN_TYPE, String.class);
@@ -254,6 +265,7 @@ public class TestMapLcsServerConfigurationData {
 
             srv.longitude = xml.getAttribute(LONGITUDE).toDouble();
             srv.lattitude = xml.getAttribute(LATTITUDE).toDouble();
+            srv.ageOfLocationEstimatePSL = xml.getAttribute(AGE_OF_LOCATION_ESTIMATE_PSL).toInt();
 
             String an = (String) xml.get(ADDRESS_NATURE, String.class);
             srv.addressNature = AddressNature.valueOf(an);

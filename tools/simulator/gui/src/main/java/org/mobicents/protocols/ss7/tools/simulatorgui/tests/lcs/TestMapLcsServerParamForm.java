@@ -82,6 +82,7 @@ public class TestMapLcsServerParamForm extends JDialog {
 
     private JTextField tfLongitude;
     private JTextField tfLattitude;
+    private JTextField tfAgeOfLocationEstimatePSL;
 
 
     private JPanel createTab(JTabbedPane parent,String name) {
@@ -430,10 +431,11 @@ public class TestMapLcsServerParamForm extends JDialog {
         tfLongitude = cretateTextField(panel_plr_1,"Longitude(e.g. -3.703790)",lineSeparation);
         tfLattitude = cretateTextField(panel_plr_1,"Lattitude(e.g. 40.416775)",lineSeparation*2);
 
+        // TODO: geranPositioningData
+        // TODO: utranPositioningData
 
-
-
-
+        JPanel panel_plr_2 = createSection(panel_psl,"Age of Location Estimate",2*sectionSeparation+lineSeparation*3,lineSeparation*2);
+        tfAgeOfLocationEstimatePSL = cretateTextField(panel_plr_2,"Age of Location Estimate",lineSeparation);
 
 
 
@@ -523,6 +525,8 @@ public class TestMapLcsServerParamForm extends JDialog {
 
         this.tfLongitude.setText(this.mapLcsServer.getLongitude().toString());
         this.tfLattitude.setText(this.mapLcsServer.getLattitude().toString());
+        // AgeOfLocation estimate seems repeated, should it go to common tab.
+        this.tfAgeOfLocationEstimatePSL.setText(this.mapLcsServer.getAgeOfLocationEstimatePSL().toString());
     }
 
     private void loadDataA() {
@@ -555,6 +559,8 @@ public class TestMapLcsServerParamForm extends JDialog {
         this.tfLongitude.setText("-3.703790");
         this.tfLattitude.setText("40.416775");
 
+        this.tfAgeOfLocationEstimatePSL.setText("0");
+
     }
 
     private void loadDataB() {
@@ -580,6 +586,7 @@ public class TestMapLcsServerParamForm extends JDialog {
             // PSL Response
             this.mapLcsServer.setLongitude(Double.valueOf(this.tfLongitude.getText()));
             this.mapLcsServer.setLattitude(Double.valueOf(this.tfLattitude.getText()));
+            this.mapLcsServer.setAgeOfLocationEstimatePSL(Integer.valueOf(this.tfAgeOfLocationEstimatePSL.getText()));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "value: " + e.toString() + "Not valid, must be a number");
             return false;

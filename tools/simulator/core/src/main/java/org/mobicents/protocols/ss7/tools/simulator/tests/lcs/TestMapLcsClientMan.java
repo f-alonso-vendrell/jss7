@@ -823,13 +823,16 @@ public class TestMapLcsClientMan extends TesterBase implements TestMapLcsClientM
 
     private String createPSLResponse(
         long dialogId,
-        ExtGeographicalInformation locationEstimate){
+        ExtGeographicalInformation locationEstimate,
+        Integer ageOfLocationEstimate){
 
         StringBuilder sb = new StringBuilder();
         sb.append("dialogId=");
         sb.append(dialogId).append("\",\n ");
         sb.append("locationEstimate=\"");
-        sb.append(locationEstimate).append("\"");
+        sb.append(locationEstimate).append("\",\n");
+        sb.append("ageOfLocationEstimate=\"");
+        sb.append(ageOfLocationEstimate).append("\"");
 
         return sb.toString();
     }
@@ -847,7 +850,10 @@ public class TestMapLcsClientMan extends TesterBase implements TestMapLcsClientM
                         .createPSLResponse(
                                 curDialog.getLocalDialogId(),
                                 provideSubscriberLocationResponseIndication
-                                        .getLocationEstimate()), Level.INFO);
+                                    .getLocationEstimate(),
+                                provideSubscriberLocationResponseIndication
+                                    .getAgeOfLocationEstimate()
+                                        ), Level.INFO);
     }
 
     public void onSubscriberLocationReportRequest(SubscriberLocationReportRequest subscriberLocationReportRequestIndication) {

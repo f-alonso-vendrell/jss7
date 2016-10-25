@@ -309,13 +309,17 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
 
     private String createPSLResponse(
         long dialogId,
-        ExtGeographicalInformation locationEstimate){
+        ExtGeographicalInformation locationEstimate,
+        Integer ageOfLocationEstimate){
 
         StringBuilder sb = new StringBuilder();
         sb.append("dialogId=");
         sb.append(dialogId).append("\",\n ");
         sb.append("locationEstimate=\"");
-        sb.append(locationEstimate).append("\"");
+        sb.append(locationEstimate).append("\",\n");
+        sb.append("ageOfLocationEstimate=\"");
+        sb.append(ageOfLocationEstimate).append("\"");
+
 
         return sb.toString();
     }
@@ -352,7 +356,7 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
 
             PositioningDataInformation geranPositioningData = null;
             UtranPositioningDataInfo utranPositioningData = null;
-            Integer ageOfLocationEstimate = 0;
+            Integer ageOfLocationEstimate = getAgeOfLocationEstimatePSL();
             AddGeographicalInformation additionalLocationEstimate = null;
             MAPExtensionContainer extensionContainer = null;
             boolean deferredMTLRResponseIndicator = false;
@@ -370,10 +374,10 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
 
             curDialog.addProvideSubscriberLocationResponse(
                 provideSubscriberLocationRequestIndication.getInvokeId(),
-                locationEstimate,     // Version 1
+                locationEstimate,     // Version 1 - done
                 geranPositioningData, // Version 1
                 utranPositioningData, // Version 1
-                ageOfLocationEstimate, // Version 1
+                ageOfLocationEstimate, // Version 1 - done
                 additionalLocationEstimate, // Version 1
                 extensionContainer,
                 deferredMTLRResponseIndicator, // Version 1
@@ -394,7 +398,8 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
 
             this.testerHost.sendNotif(SOURCE_NAME, "Sent: SendRoutingInfoForLCSResponse",
                 createPSLResponse(curDialog.getLocalDialogId(),
-                    locationEstimate), Level.INFO);
+                    locationEstimate,
+                    ageOfLocationEstimate), Level.INFO);
 
          } catch (MAPException e) {
             logger.debug("Failed building  SendRoutingInfoForLCS response "+e.toString());
@@ -680,6 +685,15 @@ public class TestMapLcsServerMan extends TesterBase implements TestMapLcsServerM
     @Override
     public void setAgeOfLocationEstimate(Integer ageLocationEstimate){
         this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setAgeOfLocationEstimate(ageLocationEstimate);
+        this.testerHost.markStore();
+    }
+    @Override
+    public Integer getAgeOfLocationEstimatePSL() {
+        return this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().getAgeOfLocationEstimatePSL();
+    }
+    @Override
+    public void setAgeOfLocationEstimatePSL(Integer ageLocationEstimate){
+        this.testerHost.getConfigurationData().getTestMapLcsServerConfigurationData().setAgeOfLocationEstimatePSL(ageLocationEstimate);
         this.testerHost.markStore();
     }
     @Override
